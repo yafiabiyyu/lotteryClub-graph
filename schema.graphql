@@ -1,0 +1,28 @@
+type Manager @entity {
+  id: ID!
+  blockNumber: BigInt!
+  timestamp: BigInt!
+  club: [Club!]!
+}
+
+type Winers @entity {
+  id: ID!
+  address: Bytes!
+  club: Club!
+  timestamp: BigInt!
+  blockNumber: BigInt!
+}
+
+type Club @entity {
+  id: ID!
+  name: String!
+  reward: BigInt!
+  deposit: BigInt!
+  membersLimit: BigInt!
+  rewardAddress: Bytes!
+  manager: Manager!
+  type: String!
+  createdAtTimestamp: BigInt!
+  createdAtBlockNumber: BigInt!
+  winer: [Winers!]! @derivedFrom(field: "club")
+}

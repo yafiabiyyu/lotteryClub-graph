@@ -1,0 +1,72 @@
+specVersion: 0.0.4
+schema:
+    file: ./schema.graphql
+dataSources:
+    - kind: ethereum/contract
+      name: Factory
+      network: celo-alfajores
+      source:
+          address: "0x7d92b85cbEE92E3aA83586151Aeec8Fb75192247"
+          abi: Factory
+          startBlock: 16681857
+      mapping:
+          kind: ethereum/events
+          apiVersion: 0.0.6
+          language: wasm/assemblyscript
+          entities:
+              - Club
+              - Manager
+          abis:
+              - name: Factory
+                file: ./abis/Factory.json
+          eventHandlers:
+              - event: NewClub(indexed address,string,uint256,uint256,uint256,address,address,bytes32)
+                handler: handleNewClub
+          file: ./src/mapping.ts
+templates:
+    - kind: ethereum/contract
+      name: ClubToken
+      network: celo-alfajores
+      source:
+          abi: clubToken
+      mapping:
+          kind: ethereum/events
+          apiVersion: 0.0.6
+          language: wasm/assemblyscript
+          file: ./src/mapping.ts
+          entities:
+              - Club
+              - Manager
+              - Winer
+          abis:
+              - name: clubToken
+                file: ./abis/ClubToken.json
+          eventHandlers:
+              - event: RewardUpdate(uint256,uint256,uint256,address)
+                handler: handleRewardUpdateToken
+              - event: Winer(indexed address,address)
+                handler: handleWinerToken
+    - kind: ethereum/contract
+      name: ClubNFT
+      network: celo-alfajores
+      source:
+          abi: clubNFT
+      mapping:
+          kind: ethereum/events
+          apiVersion: 0.0.6
+          language: wasm/assemblyscript
+          file: ./src/mapping.ts
+          entities:
+              - Club
+              - Manager
+              - Winer
+          abis:
+              - name: clubNFT
+                file: ./abis/ClubNFT.json
+          eventHandlers:
+              - event: RewardUpdate(indexed address,uint256,address)
+                handler: handleNFTReward
+              - event: LimitAndDepoUpdate(uint256,string,address)
+                handler: handleLimitDepoNFTUpdate
+              - event: Winer(indexed address,address)
+                handler: handleWinerNFT

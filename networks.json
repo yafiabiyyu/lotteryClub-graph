@@ -1,0 +1,8 @@
+{
+  "celo-alfajores": {
+    "Factory": {
+      "address": "0xda31FFe1941EFC25c3B3290A7A94B3Ee7514b142",
+      "startBlock": 0
+    }
+  }
+}
